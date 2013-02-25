@@ -1,7 +1,11 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 //Naomi and Brandon
 public class Board {
 	private ArrayList<BoardCell> cells = new ArrayList<BoardCell>();
-	private Map<Character, String> rooms = new Map<Character, String>();
+	private Map<Character, String> rooms = new HashMap<Character, String>();
 	private int numRows;
 	private int numColumns;
 	
@@ -19,7 +23,7 @@ public class Board {
 	
 	public BoardCell GetRoomCellAt(int row, int column){
 		//add logic
-		return cells;
+		return null;
 	}
 	
 	//need to add getters for the board fields
