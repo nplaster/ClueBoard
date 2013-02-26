@@ -1,3 +1,4 @@
+package Board;
 //Brandon and Naomi
 public class WalkwayCell extends BoardCell{
 	public WalkwayCell() {

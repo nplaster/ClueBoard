@@ -1,3 +1,4 @@
+package Board;
 //Naomi and Brandon
 public class BoardCell {
 	private int row;
