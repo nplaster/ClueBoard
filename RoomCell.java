@@ -6,7 +6,7 @@ public class RoomCell extends BoardCell {
 	private char roomInitial;
 	
 	@Override
-	public Boolean isRoom(){
+	public boolean isRoom(){
 		return true;
 	}
 	
@@ -16,6 +16,10 @@ public class RoomCell extends BoardCell {
 
 	public char getRoomInitial() {
 		return roomInitial;
+	}
+	
+	public DoorDirection getDoorDirection() {
+		return doorDirection;
 	}
 	
 	

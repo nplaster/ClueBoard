@@ -8,17 +8,17 @@ public class BoardCell {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Boolean isWalkway(){
+	public boolean isWalkway(){
 		//return true if the cell is a wlkaway
 		return false;
 	}
 	
-	public Boolean isRoom(){
+	public boolean isRoom(){
 		//return true if the cell is a room
 		return false;
 	}
 	
-	public Boolean isDoorway(){
+	public boolean isDoorway(){
 		//return true if the cell is a doorway
 		return false;
 	}

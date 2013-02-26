@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.LineNumberReader;
+import java.util.ArrayList;
 import java.util.Map;
 
 import junit.framework.Assert;
@@ -85,6 +86,105 @@ public class ClueBoardTest {
 	public void testNumRooms() {
 		Assert.assertEquals(23, board.getNumRows());
 		Assert.assertEquals(23, board.getNumColumns());
+	}
+	
+	//Check non doors
+	@Test
+	public void testNonDoors() {
+		//test upper left corner
+		cell = (RoomCell) board.GetRoomCellAt(0, 0);
+		Assert.assertEquals(false, cell.isDoorway());
+		//test bottom right corner
+		cell = (RoomCell) board.GetRoomCellAt(22, 22);
+		Assert.assertEquals(false, cell.isDoorway());
+		//test top edge
+		cell = (RoomCell) board.GetRoomCellAt(0, 10);
+		Assert.assertEquals(false, cell.isDoorway());
+		//test left edge
+		cell = (RoomCell) board.GetRoomCellAt(18, 0);
+		Assert.assertEquals(false, cell.isDoorway());
+		//test right edge
+		cell = (RoomCell) board.GetRoomCellAt(7, 22);
+		Assert.assertEquals(false, cell.isDoorway());
+		//test bottom edge
+		cell = (RoomCell) board.GetRoomCellAt(22, 10);
+		Assert.assertEquals(false, cell.isDoorway());
+		//test center cells
+		cell = (RoomCell) board.GetRoomCellAt(12, 12);
+		Assert.assertEquals(false, cell.isDoorway());
+		cell = (RoomCell) board.GetRoomCellAt(10, 3);
+		Assert.assertEquals(false, cell.isDoorway());
+		cell = (RoomCell) board.GetRoomCellAt(3, 10);
+		Assert.assertEquals(false, cell.isDoorway());
+	}
+	
+	//Test door direction
+	@Test
+	public void testDoorDirection() {
+		//Kitchen door
+		cell = (RoomCell) board.GetRoomCellAt(3, 4);
+		Assert.assertEquals(true, cell.isDoorway());
+		Assert.assertEquals("DOWN", cell.getDoorDirection());
+		//Conservatory door
+		cell = (RoomCell) board.GetRoomCellAt(1, 10);
+		Assert.assertEquals(true, cell.isDoorway());
+		Assert.assertEquals("RIGHT", cell.getDoorDirection());
+		//Hall door
+		cell = (RoomCell) board.GetRoomCellAt(4, 13);
+		Assert.assertEquals(true, cell.isDoorway());
+		Assert.assertEquals("DOWN", cell.getDoorDirection());
+		//Library doors
+		cell = (RoomCell) board.GetRoomCellAt(6, 19);
+		Assert.assertEquals(true, cell.isDoorway());
+		Assert.assertEquals("LEFT", cell.getDoorDirection());
+		cell = (RoomCell) board.GetRoomCellAt(7, 19);
+		Assert.assertEquals(true, cell.isDoorway());
+		Assert.assertEquals("LEFT", cell.getDoorDirection());
+		//Ballroom doors
+		cell = (RoomCell) board.GetRoomCellAt(10, 5);
+		Assert.assertEquals(true, cell.isDoorway());
+		Assert.assertEquals("RIGHT", cell.getDoorDirection());
+		cell = (RoomCell) board.GetRoomCellAt(11, 5);
+		Assert.assertEquals(true, cell.isDoorway());
+		Assert.assertEquals("RIGHT", cell.getDoorDirection());
+		cell = (RoomCell) board.GetRoomCellAt(9, 5);
+		Assert.assertEquals(true, cell.isDoorway());
+		Assert.assertEquals("RIGHT", cell.getDoorDirection());
+		//Lounge door
+		cell = (RoomCell) board.GetRoomCellAt(13, 16);
+		Assert.assertEquals(true, cell.isDoorway());
+		Assert.assertEquals("LEFT", cell.getDoorDirection());
+		//Billiard room door
+		cell = (RoomCell) board.GetRoomCellAt(17, 3);
+		Assert.assertEquals(true, cell.isDoorway());
+		Assert.assertEquals("UP", cell.getDoorDirection());
+		//Dining room doors
+		cell = (RoomCell) board.GetRoomCellAt(17, 8);
+		Assert.assertEquals(true, cell.isDoorway());
+		Assert.assertEquals("LEFT", cell.getDoorDirection());
+		cell = (RoomCell) board.GetRoomCellAt(18, 8);
+		Assert.assertEquals(true, cell.isDoorway());
+		Assert.assertEquals("LEFT", cell.getDoorDirection());
+		//Study door
+		cell = (RoomCell) board.GetRoomCellAt(18, 19);
+		Assert.assertEquals(true, cell.isDoorway());
+		Assert.assertEquals("DOWN", cell.getDoorDirection());
+	}
+	
+	//Test calcIndex
+	@Test
+	public void testCalcIndex() {
+		Assert.assertEquals(0,board.calcIndex(0, 0));
+		Assert.assertEquals(528,board.calcIndex(22, 22));
+		Assert.assertEquals(396,board.calcIndex(17, 5));
+		Assert.assertEquals(261,board.calcIndex(11, 19));
+		Assert.assertEquals(461,board.calcIndex(20, 1));
+	}
+	
+	//Test exception tossing
+	@Test (expected = BadConfigFormatException.class)
+	public void testException() throws BadConfigFormatException {
+		board.loadConfigFiles();
 	}
 
 }
