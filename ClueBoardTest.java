@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.LineNumberReader;
+import java.util.Map;
 
 import junit.framework.Assert;
 
@@ -28,19 +29,23 @@ public class ClueBoardTest {
 		board.loadConfigFiles();	
 	}
 
-	//Check number of rooms in legend is correct
+	
+	//Check mapping and number of rooms
 	@Test
-	public void testLegend() {
-		int lines = 0;
-		try {
-		LineNumberReader lnr = new LineNumberReader(new FileReader(new File("Legend.txt")));
-		lnr.skip(Long.MAX_VALUE);
-		lines = lnr.getLineNumber();
-		}
-		catch (IOException e) {
-			System.err.println("Legend.txt does not exist");
-		}
-		Assert.assertEquals(11, lines);
+	public void testMapping() {
+		Map<Character, String> rooms = board.getRooms();
+		Assert.assertEquals(11, rooms.size());
+		Assert.assertEquals("Closet", rooms.get("X"));
+		Assert.assertEquals("Walkway", rooms.get("W"));
+		Assert.assertEquals("Conservatory", rooms.get("C"));
+		Assert.assertEquals("Kitchen", rooms.get("K")); 
+		Assert.assertEquals("Ballroom", rooms.get("B"));
+		Assert.assertEquals("Billiard Room", rooms.get("R"));
+		Assert.assertEquals("Library", rooms.get("L"));
+		Assert.assertEquals("Study", rooms.get("S"));
+		Assert.assertEquals("Dining Room", rooms.get("D"));
+		Assert.assertEquals("Lounge", rooms.get("O"));
+		Assert.assertEquals("Hall", rooms.get("H"));
 	}
 	
 	//Check room initials
