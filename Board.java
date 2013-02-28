@@ -1,12 +1,16 @@
 package Board;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.Map;
 
 //Naomi and Brandon
 public class Board {
 	private ArrayList<BoardCell> cells;
 	private Map<Character, String> rooms;
+	private HashSet<Integer> targets;
+	private Map<Integer, LinkedList<Integer>> adjMtx;
 	private int numRows;
 	private int numColumns;
 	
@@ -45,5 +49,24 @@ public class Board {
 		return numColumns;
 	}
 	
+	public void calcTargets(int location, int steps) {
+		
+	}
+	
+	public void calcAdjacencies(){
+		
+	}
+	
+	public HashSet getTargets(){
+		return targets;	
+	}
+	
+	public LinkedList<Integer> getAdjList(int location){
+		return adjMtx.get(location);
+	}
+	
+	public void startTargets(int location, int steps){
+		
+	}
 	
 }
