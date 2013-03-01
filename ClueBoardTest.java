@@ -313,38 +313,41 @@ public class ClueBoardTest {
 		//Location Row 16 Column 1
 		board.startTargets(board.calcIndex(16, 1), 1);
 		Set targets= board.getTargets();
-		Assert.assertEquals(4, targets.size());
-		Assert.assertTrue(targets.contains(12));
-		Assert.assertTrue(targets.contains(9));
-		Assert.assertTrue(targets.contains(1));
-		Assert.assertTrue(targets.contains(6));
+		Assert.assertEquals(3, targets.size());
+		Assert.assertTrue(targets.contains(270));
+		Assert.assertTrue(targets.contains(368));
+		Assert.assertTrue(targets.contains(346));
 		
 		//Location Row 14 Column 13
-		board.startTargets(board.calcIndex(14, 13), 5);
+		board.startTargets(board.calcIndex(14, 13), 3);
 		targets= board.getTargets();
-		Assert.assertEquals(4, targets.size());
-		Assert.assertTrue(targets.contains(12));
-		Assert.assertTrue(targets.contains(9));
-		Assert.assertTrue(targets.contains(1));
-		Assert.assertTrue(targets.contains(6));
+		Assert.assertEquals(9, targets.size());
+		Assert.assertTrue(targets.contains(336));
+		Assert.assertTrue(targets.contains(334));
+		Assert.assertTrue(targets.contains(332));
+		Assert.assertTrue(targets.contains(312));
+		Assert.assertTrue(targets.contains(314));
+		Assert.assertTrue(targets.contains(310));
+		Assert.assertTrue(targets.contains(290));
+		Assert.assertTrue(targets.contains(382));
 		
 		//Location Row 22 Column 14
 		board.startTargets(board.calcIndex(22, 14), 6);
 		targets= board.getTargets();
 		Assert.assertEquals(4, targets.size());
-		Assert.assertTrue(targets.contains(12));
-		Assert.assertTrue(targets.contains(9));
-		Assert.assertTrue(targets.contains(1));
-		Assert.assertTrue(targets.contains(6));
+		Assert.assertTrue(targets.contains(452));
+		Assert.assertTrue(targets.contains(406));
+		Assert.assertTrue(targets.contains(428));
+		Assert.assertTrue(targets.contains(382));
 		
-		//Location Row 19 Column 10
-		board.startTargets(board.calcIndex(19, 10), 2);
+		//Location Row 10 Column 19
+		board.startTargets(board.calcIndex(10, 19), 2);
 		targets= board.getTargets();
 		Assert.assertEquals(4, targets.size());
-		Assert.assertTrue(targets.contains(12));
-		Assert.assertTrue(targets.contains(9));
-		Assert.assertTrue(targets.contains(1));
-		Assert.assertTrue(targets.contains(6));
+		Assert.assertTrue(targets.contains(251));
+		Assert.assertTrue(targets.contains(247));
+		Assert.assertTrue(targets.contains(273));
+		Assert.assertTrue(targets.contains(271));
 	}
 
 	
@@ -354,20 +357,20 @@ public class ClueBoardTest {
 		//Location Row 3 Column 4
 		board.startTargets(board.calcIndex(3, 4), 1);
 		Set targets= board.getTargets();
-		Assert.assertEquals(4, targets.size());
-		Assert.assertTrue(targets.contains(12));
-		Assert.assertTrue(targets.contains(9));
-		Assert.assertTrue(targets.contains(1));
-		Assert.assertTrue(targets.contains(6));
+		Assert.assertEquals(1, targets.size());
+		Assert.assertTrue(targets.contains(96));
 		
 		//Location Row 18 Column 8
 		board.startTargets(board.calcIndex(18, 8), 4);
 		targets= board.getTargets();
-		Assert.assertEquals(4, targets.size());
-		Assert.assertTrue(targets.contains(12));
-		Assert.assertTrue(targets.contains(9));
-		Assert.assertTrue(targets.contains(1));
-		Assert.assertTrue(targets.contains(6));
+		Assert.assertEquals(7, targets.size());
+		Assert.assertTrue(targets.contains(420));
+		Assert.assertTrue(targets.contains(398));
+		Assert.assertTrue(targets.contains(396));
+		Assert.assertTrue(targets.contains(442));
+		Assert.assertTrue(targets.contains(466));
+		Assert.assertTrue(targets.contains(374));
+		Assert.assertTrue(targets.contains(352));
 	}
 	
 	//TestTargets Entering rooms
@@ -376,20 +379,21 @@ public class ClueBoardTest {
 		//Location Row 1 Column 12
 		board.startTargets(board.calcIndex(1, 12), 3);
 		Set targets= board.getTargets();
-		Assert.assertEquals(4, targets.size());
-		Assert.assertTrue(targets.contains(12));
-		Assert.assertTrue(targets.contains(9));
-		Assert.assertTrue(targets.contains(1));
-		Assert.assertTrue(targets.contains(6));
+		Assert.assertEquals(5, targets.size());
+		Assert.assertTrue(targets.contains(34));
+		Assert.assertTrue(targets.contains(33));
+		Assert.assertTrue(targets.contains(58));
+		Assert.assertTrue(targets.contains(80));
+		Assert.assertTrue(targets.contains(104));
 		
 		//Location Row 11 Column 6
 		board.startTargets(board.calcIndex(11, 6), 1);
 		targets= board.getTargets();
 		Assert.assertEquals(4, targets.size());
-		Assert.assertTrue(targets.contains(12));
-		Assert.assertTrue(targets.contains(9));
-		Assert.assertTrue(targets.contains(1));
-		Assert.assertTrue(targets.contains(6));
+		Assert.assertTrue(targets.contains(260));
+		Assert.assertTrue(targets.contains(258));
+		Assert.assertTrue(targets.contains(236));
+		Assert.assertTrue(targets.contains(282));
 		
 	}
 
