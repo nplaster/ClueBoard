@@ -24,8 +24,7 @@ public class Board {
 	}
 
 	public int calcIndex(int row, int column){
-		//add logic
-		return 1000;
+		return (23*row) + column;
 	}
 	
 	public BoardCell GetRoomCellAt(int row, int column){
