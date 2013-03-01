@@ -3,8 +3,8 @@ package Board;
 
 //Brandon and Naomi
 public class WalkwayCell extends BoardCell{
-	public WalkwayCell() {
-		// TODO Auto-generated constructor stub
+	public WalkwayCell(int row, int column) {
+		super(row,column);
 	}
 	
 	@Override

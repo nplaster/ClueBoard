@@ -10,8 +10,15 @@ public class RoomCell extends BoardCell {
 		return true;
 	}
 	
-	public RoomCell() {
-		// TODO Auto-generated constructor stub
+	public RoomCell(int row, int column, char initial) {
+		super(row,column);
+		roomInitial = initial;
+	}
+	
+	public RoomCell(int row, int column, char initial, DoorDirection doorDirection) {
+		super(row,column);
+		roomInitial = initial;
+		this.doorDirection = doorDirection;
 	}
 
 	public char getRoomInitial() {

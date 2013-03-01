@@ -7,6 +7,8 @@ import java.util.Map;
 
 //Naomi and Brandon
 public class Board {
+	public static final int ROWS = 23;
+	public static final int COLS = 23;
 	private ArrayList<BoardCell> cells;
 	private Map<Character, String> rooms;
 	private HashSet<Integer> targets;
