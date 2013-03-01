@@ -125,51 +125,51 @@ public class ClueBoardTest {
 		// Kitchen door
 		cell = (RoomCell) board.GetRoomCellAt(3, 4);
 		Assert.assertEquals(true, cell.isDoorway());
-		Assert.assertEquals("DOWN", cell.getDoorDirection());
+		Assert.assertEquals(RoomCell.DoorDirection.DOWN, cell.getDoorDirection());
 		// Conservatory door
 		cell = (RoomCell) board.GetRoomCellAt(1, 10);
 		Assert.assertEquals(true, cell.isDoorway());
-		Assert.assertEquals("RIGHT", cell.getDoorDirection());
+		Assert.assertEquals(RoomCell.DoorDirection.RIGHT, cell.getDoorDirection());
 		// Hall door
 		cell = (RoomCell) board.GetRoomCellAt(4, 13);
 		Assert.assertEquals(true, cell.isDoorway());
-		Assert.assertEquals("DOWN", cell.getDoorDirection());
+		Assert.assertEquals(RoomCell.DoorDirection.DOWN, cell.getDoorDirection());
 		// Library doors
 		cell = (RoomCell) board.GetRoomCellAt(6, 19);
 		Assert.assertEquals(true, cell.isDoorway());
-		Assert.assertEquals("LEFT", cell.getDoorDirection());
+		Assert.assertEquals(RoomCell.DoorDirection.LEFT, cell.getDoorDirection());
 		cell = (RoomCell) board.GetRoomCellAt(7, 19);
 		Assert.assertEquals(true, cell.isDoorway());
-		Assert.assertEquals("LEFT", cell.getDoorDirection());
+		Assert.assertEquals(RoomCell.DoorDirection.LEFT, cell.getDoorDirection());
 		// Ballroom doors
 		cell = (RoomCell) board.GetRoomCellAt(10, 5);
 		Assert.assertEquals(true, cell.isDoorway());
-		Assert.assertEquals("RIGHT", cell.getDoorDirection());
+		Assert.assertEquals(RoomCell.DoorDirection.RIGHT, cell.getDoorDirection());
 		cell = (RoomCell) board.GetRoomCellAt(11, 5);
 		Assert.assertEquals(true, cell.isDoorway());
-		Assert.assertEquals("RIGHT", cell.getDoorDirection());
+		Assert.assertEquals(RoomCell.DoorDirection.RIGHT, cell.getDoorDirection());
 		cell = (RoomCell) board.GetRoomCellAt(9, 5);
 		Assert.assertEquals(true, cell.isDoorway());
-		Assert.assertEquals("RIGHT", cell.getDoorDirection());
+		Assert.assertEquals(RoomCell.DoorDirection.RIGHT, cell.getDoorDirection());
 		// Lounge door
 		cell = (RoomCell) board.GetRoomCellAt(13, 16);
 		Assert.assertEquals(true, cell.isDoorway());
-		Assert.assertEquals("LEFT", cell.getDoorDirection());
+		Assert.assertEquals(RoomCell.DoorDirection.LEFT, cell.getDoorDirection());
 		// Billiard room door
 		cell = (RoomCell) board.GetRoomCellAt(17, 3);
 		Assert.assertEquals(true, cell.isDoorway());
-		Assert.assertEquals("UP", cell.getDoorDirection());
+		Assert.assertEquals(RoomCell.DoorDirection.UP, cell.getDoorDirection());
 		// Dining room doors
 		cell = (RoomCell) board.GetRoomCellAt(17, 8);
 		Assert.assertEquals(true, cell.isDoorway());
-		Assert.assertEquals("LEFT", cell.getDoorDirection());
+		Assert.assertEquals(RoomCell.DoorDirection.LEFT, cell.getDoorDirection());
 		cell = (RoomCell) board.GetRoomCellAt(18, 8);
 		Assert.assertEquals(true, cell.isDoorway());
-		Assert.assertEquals("LEFT", cell.getDoorDirection());
+		Assert.assertEquals(RoomCell.DoorDirection.LEFT, cell.getDoorDirection());
 		// Study door
 		cell = (RoomCell) board.GetRoomCellAt(18, 19);
 		Assert.assertEquals(true, cell.isDoorway());
-		Assert.assertEquals("DOWN", cell.getDoorDirection());
+		Assert.assertEquals(RoomCell.DoorDirection.DOWN, cell.getDoorDirection());
 	}
 
 	// Test calcIndex
