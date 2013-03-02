@@ -15,6 +15,7 @@ import java.util.Set;
 import junit.framework.Assert;
 
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import Board.Board;
@@ -38,17 +39,17 @@ public class ClueBoardTest {
 	public void testMapping() {
 		Map<Character, String> rooms = board.getRooms();
 		Assert.assertEquals(11, rooms.size());
-		Assert.assertEquals("Closet", rooms.get("X"));
-		Assert.assertEquals("Walkway", rooms.get("W"));
-		Assert.assertEquals("Conservatory", rooms.get("C"));
-		Assert.assertEquals("Kitchen", rooms.get("K"));
-		Assert.assertEquals("Ballroom", rooms.get("B"));
-		Assert.assertEquals("Billiard Room", rooms.get("R"));
-		Assert.assertEquals("Library", rooms.get("L"));
-		Assert.assertEquals("Study", rooms.get("S"));
-		Assert.assertEquals("Dining Room", rooms.get("D"));
-		Assert.assertEquals("Lounge", rooms.get("O"));
-		Assert.assertEquals("Hall", rooms.get("H"));
+		Assert.assertEquals("Closet", rooms.get('X'));
+		Assert.assertEquals("Walkway", rooms.get('W'));
+		Assert.assertEquals("Conservatory", rooms.get('C'));
+		Assert.assertEquals("Kitchen", rooms.get('K'));
+		Assert.assertEquals("Ballroom", rooms.get('B'));
+		Assert.assertEquals("Billiard Room", rooms.get('R'));
+		Assert.assertEquals("Library", rooms.get('L'));
+		Assert.assertEquals("Study", rooms.get('S'));
+		Assert.assertEquals("Dining Room", rooms.get('D'));
+		Assert.assertEquals("Lounge", rooms.get('O'));
+		Assert.assertEquals("Hall", rooms.get('H'));
 	}
 
 	// Check room initials
@@ -192,7 +193,7 @@ public class ClueBoardTest {
 	// Test exception tossing with Board file
 	@Test(expected = BadConfigFormatException.class)
 	public void testExceptionBoard() throws BadConfigFormatException, FileNotFoundException {
-		board.loadLegend("BadBoard.txt");
+		board.loadLegend("BadBoard.csv");
 	}
 	
 	//Test walkways and edge cases

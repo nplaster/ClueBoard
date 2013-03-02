@@ -28,7 +28,7 @@ public class Board {
 	public void loadConfigFiles() {
 		try {
 			this.loadLegend("Legend.txt");
-			this.loadBoard("Board.txt");
+			this.loadBoard("Board.csv");
 		}
 		catch (BadConfigFormatException e) {
 			System.out.println(e);
@@ -53,9 +53,8 @@ public class Board {
 				else {
 					char initial = parts[0].charAt(0);
 					String room = parts[1];
-					System.out.println(initial + " " + room);
-					rooms.put(initial, room);
-				}
+					room = room.substring(1, room.length());
+					rooms.put(initial, room);				}
 			}
 			else {
 				throw new BadConfigFormatException("Too few rooms in Legend.txt");
