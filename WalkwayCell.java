@@ -1,4 +1,4 @@
-package Board;
+package clueGame;
 
 
 //Brandon and Naomi

@@ -1,4 +1,4 @@
-package Test;
+package clueTests;
 
 import static org.junit.Assert.*;
 
@@ -18,11 +18,12 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import Board.Board;
-import Board.BadConfigFormatException;
-import Board.BoardCell;
-import Board.RoomCell;
-import Board.WalkwayCell;
+import clueGame.BadConfigFormatException;
+import clueGame.Board;
+import clueGame.BoardCell;
+import clueGame.RoomCell;
+import clueGame.WalkwayCell;
+
 
 public class ClueBoardTest {
 	Board board;
@@ -30,7 +31,7 @@ public class ClueBoardTest {
 
 	@Before
 	public void beforeTest() {
-		board = new Board();
+		board = new Board("Clue Board.csv", "Legend.txt");
 		board.loadConfigFiles();
 	}
 
@@ -186,13 +187,15 @@ public class ClueBoardTest {
 	// Test exception tossing with Legend file
 	@Test(expected = BadConfigFormatException.class)
 	public void testExceptionLegend() throws BadConfigFormatException, FileNotFoundException {
-		board.loadRoomConfig("BadLegend.txt");
+		board = new Board("Clue Board.csv", "BadLegend.txt");
+		board.loadRoomConfig();
 	}
 	
 	// Test exception tossing with Board file
 	@Test(expected = BadConfigFormatException.class)
 	public void testExceptionBoard() throws BadConfigFormatException, FileNotFoundException {
-		board.loadBoardConfig("BadBoard.csv");
+		board = new Board("BadBoard.csv", "Legend.txt");
+		board.loadBoardConfig();
 	}
 	
 	//Test walkways and edge cases

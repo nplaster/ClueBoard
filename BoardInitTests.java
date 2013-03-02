@@ -1,4 +1,4 @@
-package Test;
+package clueTests;
 
 // Doing a static import allows me to write assertEquals rather than
 // Assert.assertEquals
@@ -12,12 +12,12 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import Board.BadConfigFormatException;
-import Board.Board;
-import Board.BoardCell;
-import Board.RoomCell;
+import clueGame.BadConfigFormatException;
+import clueGame.Board;
+import clueGame.BoardCell;
+import clueGame.RoomCell;
 
-public class CR-BoardInitTests {
+public class BoardInitTests {
 	// I made this static because I only want to set it up one 
 	// time (using @BeforeClass), no need to do setup before each test
 	private static Board board;

@@ -1,4 +1,4 @@
-package Board;
+package clueGame;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -18,16 +18,27 @@ public class Board {
 	private HashSet<Integer> targets;
 	private Map<Integer, LinkedList<Integer>> adjMtx;
 	private int numRooms;
+	private int numRows;
+	private int numColumns;
+	private String legend = "Clue Board.csv";
+	private String board = "Legend.txt";
 	
 	public Board() {
 		cells = new ArrayList<BoardCell>();
 		rooms = new HashMap<Character, String>();
 	}
 	
+	public Board(String board, String legend ) {
+		cells = new ArrayList<BoardCell>();
+		rooms = new HashMap<Character, String>();
+		this.board = board;
+		this.legend = legend;
+	}
+	
 	public void loadConfigFiles() {
 		try {
-			this.loadRoomConfig("Legend.txt");
-			this.loadBoardConfig("Clue Board.csv");
+			this.loadRoomConfig();
+			this.loadBoardConfig();
 		}
 		catch (BadConfigFormatException e) {
 			System.out.println(e);
@@ -38,9 +49,9 @@ public class Board {
 	}
 	
 	//Load Legend file
-	public void loadRoomConfig(String fileName) throws BadConfigFormatException, FileNotFoundException {
-		FileReader legend = new FileReader(fileName);
-		Scanner input = new Scanner(legend);
+	public void loadRoomConfig() throws BadConfigFormatException, FileNotFoundException {
+		FileReader legendr = new FileReader(legend);
+		Scanner input = new Scanner(legendr);
 		for(int i = 0; i < ROOMS; ++i) {
 			if(input.hasNextLine()) {
 				String line = input.nextLine();
@@ -61,12 +72,13 @@ public class Board {
 		}
 	}
 	
-	public void loadBoardConfig(String fileName) throws BadConfigFormatException, FileNotFoundException {
+	public void loadBoardConfig() throws BadConfigFormatException, FileNotFoundException {
 		BoardCell newCell;
-		FileReader board = new FileReader(fileName);
-		Scanner input = new Scanner(board);
+		FileReader boardr = new FileReader(board);
+		Scanner input = new Scanner(boardr);
 		for(int i = 0; i < ROWS; ++i) {
 			if(input.hasNextLine()) {
+				numRows++;
 				String line = input.nextLine();
 				String[] parts = line.split(",");
 				if(parts.length != COLS) {
@@ -74,6 +86,8 @@ public class Board {
 				}
 				else {
 					for(int j = 0; j < COLS; ++j) {
+						if(i==0)
+							numColumns++;
 						if(parts[j].charAt(0) == 'X' || parts[j].charAt(0) == 'W' || parts[j].charAt(0) == 'C' || parts[j].charAt(0) == 'K' || parts[j].charAt(0) == 'B' || parts[j].charAt(0) == 'R'
 								 || parts[j].charAt(0) == 'L' || parts[j].charAt(0) == 'S' || parts[j].charAt(0) == 'D' || parts[j].charAt(0) == 'O' || parts[j].charAt(0) == 'H') {
 							if(parts[j].length() == 1 && parts[j] == "W") {
@@ -101,12 +115,27 @@ public class Board {
 		numRooms = cells.size();
 	}
 
+	public int getNumRows() {
+		return numRows;
+	}
+
+	public int getNumColumns() {
+		return numColumns;
+	}
+
 	public int calcIndex(int row, int column){
 		return (23*row) + column;
 	}
 	
-	public BoardCell getRoomCellAt(int row, int column){
-		return cells.get(calcIndex(row,column));
+	public RoomCell getRoomCellAt(int row, int column){
+		if(cells.get(calcIndex(row,column)).isRoom())
+			return (RoomCell) cells.get(calcIndex(row,column));
+		else
+			return null;
+	}
+	
+	public BoardCell getCellAt(int location) {
+		return cells.get(location);
 	}
 
 	public ArrayList<BoardCell> getCells() {
