@@ -10,18 +10,40 @@ public class RoomCell extends BoardCell {
 		return true;
 	}
 	
+	@Override
+	public boolean isDoorway() {
+		if(doorDirection == DoorDirection.NONE)
+			return false;
+		else
+			return true;
+	}
+	
 	public RoomCell(int row, int column, char initial) {
 		super(row,column);
 		roomInitial = initial;
+		doorDirection = DoorDirection.NONE;
 	}
 	
-	public RoomCell(int row, int column, char initial, DoorDirection doorDirection) {
+	public RoomCell(int row, int column, char initial, char direction) {
 		super(row,column);
 		roomInitial = initial;
-		this.doorDirection = doorDirection;
+		switch(direction) {
+			case 'U' :
+				this.doorDirection = DoorDirection.UP;
+				break;
+			case 'D' :
+				this.doorDirection = DoorDirection.DOWN;
+				break;
+			case 'L' :
+				this.doorDirection = DoorDirection.LEFT;
+				break;
+			case 'R' :
+				this.doorDirection = DoorDirection.RIGHT;
+				break;
+		}
 	}
 
-	public char getRoomInitial() {
+	public char getInitial() {
 		return roomInitial;
 	}
 	

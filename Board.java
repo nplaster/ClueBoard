@@ -17,8 +17,7 @@ public class Board {
 	private Map<Character, String> rooms;
 	private HashSet<Integer> targets;
 	private Map<Integer, LinkedList<Integer>> adjMtx;
-	private int numRows;
-	private int numColumns;
+	private int numRooms;
 	
 	public Board() {
 		cells = new ArrayList<BoardCell>();
@@ -27,8 +26,8 @@ public class Board {
 	
 	public void loadConfigFiles() {
 		try {
-			this.loadLegend("Legend.txt");
-			this.loadBoard("Board.csv");
+			this.loadRoomConfig("Legend.txt");
+			this.loadBoardConfig("Clue Board.csv");
 		}
 		catch (BadConfigFormatException e) {
 			System.out.println(e);
@@ -39,7 +38,7 @@ public class Board {
 	}
 	
 	//Load Legend file
-	public void loadLegend(String fileName) throws BadConfigFormatException, FileNotFoundException {
+	public void loadRoomConfig(String fileName) throws BadConfigFormatException, FileNotFoundException {
 		FileReader legend = new FileReader(fileName);
 		Scanner input = new Scanner(legend);
 		for(int i = 0; i < ROOMS; ++i) {
@@ -47,7 +46,7 @@ public class Board {
 				String line = input.nextLine();
 				String[] parts = line.split(",");
 				if(parts[0].length() == 0 || parts[1].length() == 0) {
-					throw new BadConfigFormatException("Bad configuration in Legend.txt");
+					throw new BadConfigFormatException("Bad configuration in Legend file");
 
 				}
 				else {
@@ -57,22 +56,57 @@ public class Board {
 					rooms.put(initial, room);				}
 			}
 			else {
-				throw new BadConfigFormatException("Too few rooms in Legend.txt");
+				throw new BadConfigFormatException("Too few rooms in Legend file");
 			}
 		}
 	}
 	
-	public void loadBoard(String fileName) {
-		
+	public void loadBoardConfig(String fileName) throws BadConfigFormatException, FileNotFoundException {
+		BoardCell newCell;
+		FileReader board = new FileReader(fileName);
+		Scanner input = new Scanner(board);
+		for(int i = 0; i < ROWS; ++i) {
+			if(input.hasNextLine()) {
+				String line = input.nextLine();
+				String[] parts = line.split(",");
+				if(parts.length != COLS) {
+					throw new BadConfigFormatException("Too few columns in board file");
+				}
+				else {
+					for(int j = 0; j < COLS; ++j) {
+						if(parts[j].charAt(0) == 'X' || parts[j].charAt(0) == 'W' || parts[j].charAt(0) == 'C' || parts[j].charAt(0) == 'K' || parts[j].charAt(0) == 'B' || parts[j].charAt(0) == 'R'
+								 || parts[j].charAt(0) == 'L' || parts[j].charAt(0) == 'S' || parts[j].charAt(0) == 'D' || parts[j].charAt(0) == 'O' || parts[j].charAt(0) == 'H') {
+							if(parts[j].length() == 1 && parts[j] == "W") {
+								newCell = new WalkwayCell(i,j);
+								cells.add(newCell);
+							}
+							else if(parts[j].length() == 1) {
+								newCell = new RoomCell(i,j,parts[j].charAt(0));
+								cells.add(newCell);
+							}
+							else {
+								newCell = new RoomCell(i,j,parts[j].charAt(0),parts[j].charAt(1));
+								cells.add(newCell);
+							}
+						}
+						else 
+							throw new BadConfigFormatException("Invalid room initial");
+					}
+				}
+			}
+			else {
+				throw new BadConfigFormatException("Too few rows in board file");
+			}
+		}
+		numRooms = cells.size();
 	}
 
 	public int calcIndex(int row, int column){
 		return (23*row) + column;
 	}
 	
-	public BoardCell GetRoomCellAt(int row, int column){
-		//add logic
-		return null;
+	public BoardCell getRoomCellAt(int row, int column){
+		return cells.get(calcIndex(row,column));
 	}
 
 	public ArrayList<BoardCell> getCells() {
@@ -83,12 +117,8 @@ public class Board {
 		return rooms;
 	}
 
-	public int getNumRows() {
-		return numRows;
-	}
-
-	public int getNumColumns() {
-		return numColumns;
+	public int getNumRooms() {
+		return numRooms;
 	}
 	
 	public void calcTargets(int location, int steps) {
