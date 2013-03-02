@@ -3,6 +3,7 @@ package Test;
 import static org.junit.Assert.*;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.LineNumberReader;
@@ -178,14 +179,20 @@ public class ClueBoardTest {
 		Assert.assertEquals(0, board.calcIndex(0, 0));
 		Assert.assertEquals(528, board.calcIndex(22, 22));
 		Assert.assertEquals(396, board.calcIndex(17, 5));
-		Assert.assertEquals(261, board.calcIndex(11, 19));
+		Assert.assertEquals(272, board.calcIndex(11, 19));
 		Assert.assertEquals(461, board.calcIndex(20, 1));
 	}
 
-	// Test exception tossing
+	// Test exception tossing with Legend file
 	@Test(expected = BadConfigFormatException.class)
-	public void testException() throws BadConfigFormatException {
-		board.loadConfigFiles();
+	public void testExceptionLegend() throws BadConfigFormatException, FileNotFoundException {
+		board.loadLegend("BadLegend.txt");
+	}
+	
+	// Test exception tossing with Board file
+	@Test(expected = BadConfigFormatException.class)
+	public void testExceptionBoard() throws BadConfigFormatException, FileNotFoundException {
+		board.loadLegend("BadBoard.txt");
 	}
 	
 	//Test walkways and edge cases
