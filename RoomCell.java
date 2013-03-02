@@ -40,6 +40,9 @@ public class RoomCell extends BoardCell {
 			case 'R' :
 				this.doorDirection = DoorDirection.RIGHT;
 				break;
+			default: 
+				this.doorDirection = DoorDirection.NONE;
+				break;
 		}
 	}
 

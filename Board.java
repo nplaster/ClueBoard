@@ -20,12 +20,15 @@ public class Board {
 	private int numRooms;
 	private int numRows;
 	private int numColumns;
-	private String legend = "Clue Board.csv";
-	private String board = "Legend.txt";
+	//Defaults to Dr. Rader's config files
+	private String legend;
+	private String board;
 	
 	public Board() {
 		cells = new ArrayList<BoardCell>();
 		rooms = new HashMap<Character, String>();
+		legend = "ClueLegend.txt";
+		board = "ClueLayout.csv";
 	}
 	
 	public Board(String board, String legend ) {
