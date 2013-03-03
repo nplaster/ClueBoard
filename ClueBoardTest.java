@@ -199,6 +199,7 @@ public class ClueBoardTest {
 	}
 	
 	//Test walkways and edge cases
+	//These tests are DARK PURPLE in planning spreadsheet
 	@Test
 	public void testWalkwayAdjacent(){
 		//Location 145
@@ -241,6 +242,7 @@ public class ClueBoardTest {
 	}
 	
 	//Test Locations beside a room not a doorway
+	//These tests are RED in planning spreadsheet
 	@Test
 	public void testNotDoorwayLocation(){
 		//Location 328
@@ -259,6 +261,7 @@ public class ClueBoardTest {
 	}
 	
 	//Test Locations Adjacent to a doorway
+	//These tests are GREEN in planning spreadsheet
 	@Test
 	public void testDoorwayAdjacent(){
 		//Location 96
@@ -295,6 +298,7 @@ public class ClueBoardTest {
 	}
 	
 	//Test Doorways
+	//These tests are YELLOW in planning spreadsheet
 	public void testDoorways(){
 		//Location 105
 		LinkedList<Integer> testList = board.getAdjList(105);
@@ -318,6 +322,7 @@ public class ClueBoardTest {
 	}
 	
 	//TestTargets Walkways
+	//These tests are ORANGE in planning spreadsheet
 	@Test
 	public void testTargetWalkways(){
 		//Location Row 16 Column 1
@@ -362,6 +367,7 @@ public class ClueBoardTest {
 
 	
 	//TestTargets Leaving rooms
+	//These tests are ORANGE in planning spreadsheet
 	@Test
 	public void testTargetsExit(){
 		//Location Row 3 Column 4
@@ -384,6 +390,7 @@ public class ClueBoardTest {
 	}
 	
 	//TestTargets Entering rooms
+	//These tests are ORANGE in planning spreadsheet
 	@Test
 	public void testTargetsEnter(){
 		//Location Row 1 Column 12
