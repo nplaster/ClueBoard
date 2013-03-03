@@ -33,8 +33,6 @@ public class Board {
 		adjMtx = new HashMap<Integer, LinkedList<Integer>>();
 		legend = "ClueLegend.txt";
 		board = "ClueLayout.csv";
-		visited = new boolean[numRooms];
-		Arrays.fill(visited,false);
 	}
 	
 	public Board(String board, String legend ) {
@@ -44,9 +42,7 @@ public class Board {
 		adjMtx = new HashMap<Integer, LinkedList<Integer>>();
 		this.board = board;
 		this.legend = legend;
-		visited = new boolean[numRooms];
-		Arrays.fill(visited,false);
-	}
+		}
 	
 	public void loadConfigFiles() {
 		try {
@@ -65,18 +61,23 @@ public class Board {
 	public void loadRoomConfig() throws BadConfigFormatException, FileNotFoundException {
 		FileReader legendr = new FileReader(legend);
 		Scanner input = new Scanner(legendr);
-		while(input.hasNextLine()) {
-			String line = input.nextLine();
-			String[] parts = line.split(",");
-			if(parts[0].length() == 0 || parts[1].length() == 0) {
-				throw new BadConfigFormatException("Bad configuration in Legend file");
+		for(int i = 0; i < ROOMS; ++i) {
+			if(input.hasNextLine()) {
+				String line = input.nextLine();
+				String[] parts = line.split(",");
+				if(parts[0].length() == 0 || parts[1].length() == 0) {
+					throw new BadConfigFormatException("Bad configuration in Legend file");
 
+				}
+				else {
+					char initial = parts[0].charAt(0);
+					String room = parts[1];
+					room = room.substring(1, room.length());
+					rooms.put(initial, room);				}
 			}
 			else {
-				char initial = parts[0].charAt(0);
-				String room = parts[1];
-				room = room.substring(1, room.length());
-				rooms.put(initial, room);				}
+				throw new BadConfigFormatException("Too few rooms in Legend file");
+			}
 		}
 	}
 	
@@ -84,41 +85,33 @@ public class Board {
 		BoardCell newCell;
 		FileReader boardr = new FileReader(board);
 		Scanner input = new Scanner(boardr);
-		for(int i = 0; i < ROWS; ++i) {
-			if(input.hasNextLine()) {
+			while(input.hasNextLine()) {
 				numRows++;
 				String line = input.nextLine();
 				String[] parts = line.split(",");
-				if(parts.length != COLS) {
-					throw new BadConfigFormatException("Too few columns in board file");
-				}
-				else {
-					for(int j = 0; j < COLS; ++j) {
-						if(i==0)
-							numColumns++;
-						if(parts[j].charAt(0) == 'X' || parts[j].charAt(0) == 'W' || parts[j].charAt(0) == 'C' || parts[j].charAt(0) == 'K' || parts[j].charAt(0) == 'B' || parts[j].charAt(0) == 'R'
-								 || parts[j].charAt(0) == 'L' || parts[j].charAt(0) == 'S' || parts[j].charAt(0) == 'D' || parts[j].charAt(0) == 'O' || parts[j].charAt(0) == 'H') {
-							if(parts[j].length() == 1 && parts[j] == "W") {
-								newCell = new WalkwayCell(i,j);
-								cells.add(newCell);
-							}
-							else if(parts[j].length() == 1) {
-								newCell = new RoomCell(i,j,parts[j].charAt(0));
-								cells.add(newCell);
-							}
-							else {
-								newCell = new RoomCell(i,j,parts[j].charAt(0),parts[j].charAt(1));
-								cells.add(newCell);
-							}
+				if(numRows == 1)
+					numColumns = parts.length;
+				else
+					if(parts.length != numColumns) {
+						throw new BadConfigFormatException("Too few columns in board file");
+					}
+				for(int j = 0; j < numColumns; ++j) {
+					if(parts[j].charAt(0) == 'X' || parts[j].charAt(0) == 'W' || parts[j].charAt(0) == 'C' || parts[j].charAt(0) == 'K' || parts[j].charAt(0) == 'B' || parts[j].charAt(0) == 'R'
+							|| parts[j].charAt(0) == 'L' || parts[j].charAt(0) == 'S' || parts[j].charAt(0) == 'D' || parts[j].charAt(0) == 'O' || parts[j].charAt(0) == 'H') {
+						if(parts[j].length() == 1 && parts[j].charAt(0) == 'W') {
+							newCell = new WalkwayCell(numRows,j);
+							cells.add(newCell);
 						}
-						else 
-							throw new BadConfigFormatException("Invalid room initial");
+						else if(parts[j].length() == 1) {
+							newCell = new RoomCell(numRows,j,parts[j].charAt(0));
+							cells.add(newCell);
+						}
+						else {
+							newCell = new RoomCell(numRows,j,parts[j].charAt(0),parts[j].charAt(1));
+							cells.add(newCell);
+						}
 					}
 				}
-			}
-			else {
-				throw new BadConfigFormatException("Too few rows in board file");
-			}
 		}
 		numRooms = cells.size();
 	}
@@ -194,55 +187,98 @@ public class Board {
 	}
 	
 	public void calcAdjacencies(){
+		visited = new boolean[numRooms];
 		LinkedList<Integer> adjs;
 		for(int row = 0; row < numRows; row++) {
 			for(int column = 0; column < numColumns; column++) {
 				adjs = new LinkedList<Integer>();
-				//check down
-				if(row < 22)
-					checkAdjacency(row + 1, column, adjs);
-				//check up
-				if(row > 0)
-					checkAdjacency(row - 1, column, adjs);
-				//check left
-				if(column > 0)
-					checkAdjacency(row, column - 1, adjs);
-				//check right
-				if(column < 22)
-					checkAdjacency(row, column + 1, adjs);
-				adjMtx.put(calcIndex(row,column),adjs);
+				visited[calcIndex(row,column)] = true;
+				//room exit
+				if(getCellAt(calcIndex(row,column)).isDoorway()) {
+					RoomCell.DoorDirection direction = getRoomCellAt(row, column).getDoorDirection();
+					switch(direction) {
+					case DOWN :
+						adjs.add(calcIndex(row+1,column));
+						adjMtx.put(calcIndex(row,column), adjs);
+						break;
+					case UP :
+						adjs.add(calcIndex(row-1,column));
+						adjMtx.put(calcIndex(row,column), adjs);
+						break;
+					case LEFT :
+						adjs.add(calcIndex(row,column-1));
+						adjMtx.put(calcIndex(row,column), adjs);
+						break;
+					case RIGHT :
+						adjs.add(calcIndex(row,column+1));
+						adjMtx.put(calcIndex(row,column), adjs);
+						break;
+					default :
+						adjMtx.put(calcIndex(row,column), adjs);
+						break;
+					}
+				}	
+				//room cell
+				else if(getCellAt(calcIndex(row,column)).isRoom())
+					adjMtx.put(calcIndex(row,column),adjs);
+				//walkway
+				else {
+					//check down
+					if(row < numRows - 1 && checkAdjacency(row + 1, column))
+						adjs.add(calcIndex(row + 1,column));
+					//check up
+					if(row > 0 && checkAdjacency(row - 1, column))
+						adjs.add(calcIndex(row - 1,column));
+					//check left
+					if(column > 0 && checkAdjacency(row, column - 1))
+						adjs.add(calcIndex(row,column - 1));
+					//check right
+					if(column < numColumns - 1 && checkAdjacency(row, column + 1))
+						adjs.add(calcIndex(row,column + 1));
+					visited[calcIndex(row,column)] = false;
+					adjMtx.put(calcIndex(row,column),adjs);
+				}
 			}
 		}
 	}
 	
 	//Checks if the adjacent cell is a walkway or a door you can enter
-	public void checkAdjacency(int row, int column, LinkedList<Integer> adjs) {
+	public boolean checkAdjacency(int row, int column) {
 		int location = calcIndex(row,column);
-		if(cells.get(location).isWalkway())
-			adjs.add(location);
+		if(location == numRooms)
+			return false;
+		else if(cells.get(location).isWalkway())
+			return true;
 		else if (cells.get(location).isDoorway()) {
 			RoomCell test = (RoomCell) cells.get(location);
 			RoomCell.DoorDirection direction = test.getDoorDirection();
 			switch (direction) {
 			case DOWN :
-				if(test.getRow() + 1 == row) {
-					adjs.add(location);
-				}
-				break;
+				if(visited[calcIndex(row + 1,column)])
+					return true;
+				else
+					return false;
 			case UP :
-				if(test.getRow() - 1 == row)
-					adjs.add(location);
-				break;
+				if(visited[calcIndex(row - 1,column)])
+					return true;
+				else
+					return false;
 			case RIGHT :
-				if(test.getColumn() + 1 == column)
-					adjs.add(location);
-				break;
+				if(visited[calcIndex(row,column + 1)])
+					return true;
+				else
+					return false;
 			case LEFT :
-				if(test.getColumn() -1 == column)
-					adjs.add(location);
-				break;
+				if(visited[calcIndex(row,column - 1)])
+					return true;
+				else
+					return false;
+			default :
+				return false;
 			}
 		}
+		else
+			return false;
 	}
 	
 	public HashSet<BoardCell> getTargets(){

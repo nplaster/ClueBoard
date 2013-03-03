@@ -265,19 +265,13 @@ public class ClueBoardTest {
 	//These tests are GREEN in planning spreadsheet
 	@Test
 	public void testDoorwayAdjacent(){
-		//Location 96
-		LinkedList<Integer> testList = board.getAdjList(96);
-		Assert.assertTrue(testList.contains(97));
-		Assert.assertTrue(testList.contains(73));
-		Assert.assertTrue(testList.contains(119));
-		Assert.assertEquals(3, testList.size());
 		
-		//Location 156
-		testList = board.getAdjList(156);
-		Assert.assertTrue(testList.contains(155));
-		Assert.assertTrue(testList.contains(157));
-		Assert.assertTrue(testList.contains(133));
-		Assert.assertTrue(testList.contains(179));
+		//Location 410
+		LinkedList<Integer> testList = board.getAdjList(410);
+		Assert.assertTrue(testList.contains(411));
+		Assert.assertTrue(testList.contains(409));
+		Assert.assertTrue(testList.contains(387));
+		Assert.assertTrue(testList.contains(433));
 		Assert.assertEquals(4, testList.size());
 		
 		//Location 213
@@ -288,14 +282,27 @@ public class ClueBoardTest {
 		Assert.assertTrue(testList.contains(236));
 		Assert.assertEquals(4, testList.size());
 		
-		//Location 410
-		testList = board.getAdjList(410);
-		Assert.assertTrue(testList.contains(411));
-		Assert.assertTrue(testList.contains(409));
-		Assert.assertTrue(testList.contains(387));
-		Assert.assertTrue(testList.contains(433));
+		//Location 156
+		testList = board.getAdjList(156);
+		Assert.assertTrue(testList.contains(155));
+		Assert.assertTrue(testList.contains(157));
+		Assert.assertTrue(testList.contains(133));
+		Assert.assertTrue(testList.contains(179));
 		Assert.assertEquals(4, testList.size());
 		
+		//Location 128
+		testList = board.getAdjList(128);
+		Assert.assertTrue(testList.contains(127));
+		Assert.assertTrue(testList.contains(129));
+		Assert.assertTrue(testList.contains(105));
+		Assert.assertTrue(testList.contains(151));
+		
+		//Location 96
+		testList = board.getAdjList(96);
+		Assert.assertTrue(testList.contains(97));
+		Assert.assertTrue(testList.contains(73));
+		Assert.assertTrue(testList.contains(119));
+		Assert.assertEquals(3, testList.size());
 	}
 	
 	//Test Doorways
