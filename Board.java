@@ -16,7 +16,7 @@ public class Board {
 	public static final int ROOMS = 11;
 	private ArrayList<BoardCell> cells;
 	private Map<Character, String> rooms;
-	private HashSet<Integer> targets;
+	private HashSet<BoardCell> targets;
 	private Map<Integer, LinkedList<Integer>> adjMtx;
 	private int numRooms;
 	private int numRows;
@@ -29,15 +29,23 @@ public class Board {
 	public Board() {
 		cells = new ArrayList<BoardCell>();
 		rooms = new HashMap<Character, String>();
+		targets = new HashSet<BoardCell>();
+		adjMtx = new HashMap<Integer, LinkedList<Integer>>();
 		legend = "ClueLegend.txt";
 		board = "ClueLayout.csv";
+		visited = new boolean[numRooms];
+		Arrays.fill(visited,false);
 	}
 	
 	public Board(String board, String legend ) {
 		cells = new ArrayList<BoardCell>();
 		rooms = new HashMap<Character, String>();
+		targets = new HashSet<BoardCell>();
+		adjMtx = new HashMap<Integer, LinkedList<Integer>>();
 		this.board = board;
 		this.legend = legend;
+		visited = new boolean[numRooms];
+		Arrays.fill(visited,false);
 	}
 	
 	public void loadConfigFiles() {
@@ -57,23 +65,18 @@ public class Board {
 	public void loadRoomConfig() throws BadConfigFormatException, FileNotFoundException {
 		FileReader legendr = new FileReader(legend);
 		Scanner input = new Scanner(legendr);
-		for(int i = 0; i < ROOMS; ++i) {
-			if(input.hasNextLine()) {
-				String line = input.nextLine();
-				String[] parts = line.split(",");
-				if(parts[0].length() == 0 || parts[1].length() == 0) {
-					throw new BadConfigFormatException("Bad configuration in Legend file");
+		while(input.hasNextLine()) {
+			String line = input.nextLine();
+			String[] parts = line.split(",");
+			if(parts[0].length() == 0 || parts[1].length() == 0) {
+				throw new BadConfigFormatException("Bad configuration in Legend file");
 
-				}
-				else {
-					char initial = parts[0].charAt(0);
-					String room = parts[1];
-					room = room.substring(1, room.length());
-					rooms.put(initial, room);				}
 			}
 			else {
-				throw new BadConfigFormatException("Too few rooms in Legend file");
-			}
+				char initial = parts[0].charAt(0);
+				String room = parts[1];
+				room = room.substring(1, room.length());
+				rooms.put(initial, room);				}
 		}
 	}
 	
@@ -157,67 +160,92 @@ public class Board {
 	
 	//calcTargets with location
 	public void calcTargets(int location, int steps) {
-		LinkedList<Integer> adjs = new LinkedList<Integer>();
+		LinkedList<BoardCell> adjs = new LinkedList<BoardCell>();
 		for(Integer i : adjMtx.get(location)) {
 			if(!visited[i])
-				adjs.add(i);
+				adjs.add(cells.get(i));
 		}
-		for(Integer adjCell : adjs) {
-			visited[adjCell] = true;
+		for(BoardCell adjCell : adjs) {
+			visited[calcIndex(adjCell.getRow(), adjCell.getColumn())] = true;
 			if(steps == 1) 
 				targets.add(adjCell);
 			else
-				calcTargets(adjCell, steps - 1);
-			visited[adjCell] = false;
+				calcTargets(calcIndex(adjCell.getRow(), adjCell.getColumn()), steps - 1);
+			visited[calcIndex(adjCell.getRow(), adjCell.getColumn())] = false;
 		}
 	}
 	
 	//calcTargets with coordinates
 	public void calcTargets(int row, int column, int steps) {
 		int location = calcIndex(row,column);
-		LinkedList<Integer> adjs = new LinkedList<Integer>();
+		LinkedList<BoardCell> adjs = new LinkedList<BoardCell>();
 		for(Integer i : adjMtx.get(location)) {
 			if(!visited[i])
-				adjs.add(i);
+				adjs.add(cells.get(location));
 		}
-		for(Integer adjCell : adjs) {
-			visited[adjCell] = true;
+		for(BoardCell adjCell : adjs) {
+			visited[calcIndex(adjCell.getRow(), adjCell.getColumn())] = true;
 			if(steps == 1) 
 				targets.add(adjCell);
 			else
-				calcTargets(adjCell, steps - 1);
-			visited[adjCell] = false;
+				calcTargets(calcIndex(adjCell.getRow(), adjCell.getColumn()), steps - 1);
+			visited[calcIndex(adjCell.getRow(), adjCell.getColumn())] = false;
 		}
 	}
 	
 	public void calcAdjacencies(){
 		LinkedList<Integer> adjs;
-		for(int row = 0; row <= 3; row++) {
-			for(int column = 0; column <= 3; column++) {
+		for(int row = 0; row < numRows; row++) {
+			for(int column = 0; column < numColumns; column++) {
 				adjs = new LinkedList<Integer>();
-				if(row == 3) 
-					adjs.add(calcIndex(row-1,column));
-				else if(row == 0)
-					adjs.add(calcIndex(row+1,column));
-				else {
-					adjs.add(calcIndex(row+1,column));
-					adjs.add(calcIndex(row-1,column));
-				}
-
-				if(column == 3)
-					adjs.add(calcIndex(row,column-1));
-				else if(column == 0)
-					adjs.add(calcIndex(row,column+1));
-				else {
-					adjs.add(calcIndex(row,column+1));
-					adjs.add(calcIndex(row,column-1));
-				}
+				//check down
+				if(row < 22)
+					checkAdjacency(row + 1, column, adjs);
+				//check up
+				if(row > 0)
+					checkAdjacency(row - 1, column, adjs);
+				//check left
+				if(column > 0)
+					checkAdjacency(row, column - 1, adjs);
+				//check right
+				if(column < 22)
+					checkAdjacency(row, column + 1, adjs);
 				adjMtx.put(calcIndex(row,column),adjs);
 			}
 		}
 	}
 	
-	public HashSet getTargets(){
+	//Checks if the adjacent cell is a walkway or a door you can enter
+	public void checkAdjacency(int row, int column, LinkedList<Integer> adjs) {
+		int location = calcIndex(row,column);
+		if(cells.get(location).isWalkway())
+			adjs.add(location);
+		else if (cells.get(location).isDoorway()) {
+			RoomCell test = (RoomCell) cells.get(location);
+			RoomCell.DoorDirection direction = test.getDoorDirection();
+			switch (direction) {
+			case DOWN :
+				if(test.getRow() + 1 == row) {
+					adjs.add(location);
+				}
+				break;
+			case UP :
+				if(test.getRow() - 1 == row)
+					adjs.add(location);
+				break;
+			case RIGHT :
+				if(test.getColumn() + 1 == column)
+					adjs.add(location);
+				break;
+			case LEFT :
+				if(test.getColumn() -1 == column)
+					adjs.add(location);
+				break;
+			}
+		}
+	}
+	
+	public HashSet<BoardCell> getTargets(){
 		return targets;	
 	}
 	
@@ -227,7 +255,7 @@ public class Board {
 	
 	public void startTargets(int location, int steps){
 		//empty targets and set visited to false just in case
-		targets = new HashSet<Integer>();
+		targets = new HashSet<BoardCell>();
 		Arrays.fill(visited, false);
 		//set start location to true
 		visited[location] = true;

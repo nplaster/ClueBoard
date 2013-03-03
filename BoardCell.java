@@ -24,6 +24,13 @@ public class BoardCell {
 		return false;
 	}
 	
+	public int getRow() {
+		return row;
+	}
+	
+	public int getColumn() {
+		return column;
+	}
 	//later add abstract method named draw
 	
 }

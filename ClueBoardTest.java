@@ -33,6 +33,7 @@ public class ClueBoardTest {
 	public void beforeTest() {
 		board = new Board("Clue Board.csv", "Legend.txt");
 		board.loadConfigFiles();
+		board.calcAdjacencies();
 	}
 
 	// Check mapping and number of rooms
