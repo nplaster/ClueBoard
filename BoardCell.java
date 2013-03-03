@@ -14,6 +14,7 @@ public class BoardCell {
 		return false;
 	}
 	
+
 	public boolean isRoom(){
 		//return true if the cell is a room
 		return false;

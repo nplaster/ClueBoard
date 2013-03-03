@@ -17,7 +17,6 @@ public class BoardAdjTargetTests {
 		board = new Board();
 		board.loadConfigFiles();
 		board.calcAdjacencies();
-
 	}
 
 	// Ensure that player does not move around within room

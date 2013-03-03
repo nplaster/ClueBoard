@@ -86,10 +86,9 @@ public class Board {
 		FileReader boardr = new FileReader(board);
 		Scanner input = new Scanner(boardr);
 			while(input.hasNextLine()) {
-				numRows++;
 				String line = input.nextLine();
 				String[] parts = line.split(",");
-				if(numRows == 1)
+				if(numRows == 0)
 					numColumns = parts.length;
 				else
 					if(parts.length != numColumns) {
@@ -112,6 +111,7 @@ public class Board {
 						}
 					}
 				}
+				numRows++;
 		}
 		numRooms = cells.size();
 	}
@@ -125,7 +125,7 @@ public class Board {
 	}
 
 	public int calcIndex(int row, int column){
-		return (23*row) + column;
+		return (numColumns*row) + column;
 	}
 	
 	public RoomCell getRoomCellAt(int row, int column){
@@ -154,27 +154,30 @@ public class Board {
 	//calcTargets with location
 	public void calcTargets(int location, int steps) {
 		LinkedList<BoardCell> adjs = new LinkedList<BoardCell>();
-		for(Integer i : adjMtx.get(location)) {
+		for(Integer i : getAdjList(location)) {
 			if(!visited[i])
 				adjs.add(cells.get(i));
 		}
 		for(BoardCell adjCell : adjs) {
 			visited[calcIndex(adjCell.getRow(), adjCell.getColumn())] = true;
-			if(steps == 1) 
-				targets.add(adjCell);
-			else
-				calcTargets(calcIndex(adjCell.getRow(), adjCell.getColumn()), steps - 1);
-			visited[calcIndex(adjCell.getRow(), adjCell.getColumn())] = false;
+			if(calcIndex(adjCell.getRow(), adjCell.getColumn()) < numRooms && calcIndex(adjCell.getRow(), adjCell.getColumn()) > 0) {
+				if(steps == 1) 
+					targets.add(adjCell);
+				else
+					calcTargets(calcIndex(adjCell.getRow(), adjCell.getColumn()), steps - 1);
+				visited[calcIndex(adjCell.getRow(), adjCell.getColumn())] = false;
+			}
 		}
 	}
 	
 	//calcTargets with coordinates
 	public void calcTargets(int row, int column, int steps) {
+		targets = new HashSet<BoardCell>();
 		int location = calcIndex(row,column);
 		LinkedList<BoardCell> adjs = new LinkedList<BoardCell>();
-		for(Integer i : adjMtx.get(location)) {
+		for(Integer i : getAdjList(location)) {
 			if(!visited[i])
-				adjs.add(cells.get(location));
+				adjs.add(cells.get(i));
 		}
 		for(BoardCell adjCell : adjs) {
 			visited[calcIndex(adjCell.getRow(), adjCell.getColumn())] = true;
@@ -224,7 +227,7 @@ public class Board {
 				//walkway
 				else {
 					//check down
-					if(row < numRows - 1 && checkAdjacency(row + 1, column))
+					if(row < numRows - 2 && checkAdjacency(row + 1, column) && calcIndex(row + 1, column) < numRooms)
 						adjs.add(calcIndex(row + 1,column));
 					//check up
 					if(row > 0 && checkAdjacency(row - 1, column))
@@ -233,7 +236,7 @@ public class Board {
 					if(column > 0 && checkAdjacency(row, column - 1))
 						adjs.add(calcIndex(row,column - 1));
 					//check right
-					if(column < numColumns - 1 && checkAdjacency(row, column + 1))
+					if(column < numColumns - 1 && checkAdjacency(row, column + 1) && calcIndex(row, column + 1) < numRooms)
 						adjs.add(calcIndex(row,column + 1));
 					visited[calcIndex(row,column)] = false;
 					adjMtx.put(calcIndex(row,column),adjs);

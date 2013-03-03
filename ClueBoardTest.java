@@ -8,6 +8,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.LineNumberReader;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
@@ -34,7 +35,7 @@ public class ClueBoardTest {
 		board = new Board("Clue Board.csv", "Legend.txt");
 		board.loadConfigFiles();
 		board.calcAdjacencies();
-	}
+		}
 
 	// Check mapping and number of rooms
 	@Test
@@ -335,15 +336,18 @@ public class ClueBoardTest {
 	public void testTargetWalkways(){
 		//Location Row 16 Column 1
 		board.startTargets(board.calcIndex(16, 1), 1);
-		Set targets= board.getTargets();
+		HashSet<BoardCell> targets = board.getTargets();
 		Assert.assertEquals(3, targets.size());
-		Assert.assertTrue(targets.contains(270));
-		Assert.assertTrue(targets.contains(368));
-		Assert.assertTrue(targets.contains(346));
+		Assert.assertTrue(targets.contains(board.getCellAt(370)));
+		Assert.assertTrue(targets.contains(board.getCellAt(368)));
+		Assert.assertTrue(targets.contains(board.getCellAt(346)));
 		
 		//Location Row 14 Column 13
 		board.startTargets(board.calcIndex(14, 13), 3);
 		targets= board.getTargets();
+		System.out.println("14,13");
+		for(BoardCell a: targets)
+			System.out.println(board.calcIndex(a.getRow(),a.getColumn()));
 		Assert.assertEquals(9, targets.size());
 		Assert.assertTrue(targets.contains(336));
 		Assert.assertTrue(targets.contains(334));
@@ -352,6 +356,7 @@ public class ClueBoardTest {
 		Assert.assertTrue(targets.contains(314));
 		Assert.assertTrue(targets.contains(310));
 		Assert.assertTrue(targets.contains(290));
+		Assert.assertTrue(targets.contains(260));
 		Assert.assertTrue(targets.contains(382));
 		
 		//Location Row 22 Column 14
@@ -380,21 +385,21 @@ public class ClueBoardTest {
 	public void testTargetsExit(){
 		//Location Row 3 Column 4
 		board.startTargets(board.calcIndex(3, 4), 1);
-		Set targets= board.getTargets();
+		HashSet<BoardCell> targets = board.getTargets();
 		Assert.assertEquals(1, targets.size());
-		Assert.assertTrue(targets.contains(96));
+		Assert.assertTrue(targets.contains(board.getCellAt(96)));
 		
 		//Location Row 18 Column 8
 		board.startTargets(board.calcIndex(18, 8), 4);
 		targets= board.getTargets();
 		Assert.assertEquals(7, targets.size());
-		Assert.assertTrue(targets.contains(420));
-		Assert.assertTrue(targets.contains(398));
-		Assert.assertTrue(targets.contains(396));
-		Assert.assertTrue(targets.contains(442));
-		Assert.assertTrue(targets.contains(466));
-		Assert.assertTrue(targets.contains(374));
-		Assert.assertTrue(targets.contains(352));
+		Assert.assertTrue(targets.contains(board.getCellAt(352)));
+		Assert.assertTrue(targets.contains(board.getCellAt(374)));
+		Assert.assertTrue(targets.contains(board.getCellAt(396)));
+		Assert.assertTrue(targets.contains(board.getCellAt(398)));
+		Assert.assertTrue(targets.contains(board.getCellAt(420)));
+		Assert.assertTrue(targets.contains(board.getCellAt(442)));
+		Assert.assertTrue(targets.contains(board.getCellAt(466)));
 	}
 	
 	//TestTargets Entering rooms
