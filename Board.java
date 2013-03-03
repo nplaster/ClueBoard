@@ -155,7 +155,26 @@ public class Board {
 		return numRooms;
 	}
 	
+	//calcTargets with location
 	public void calcTargets(int location, int steps) {
+		LinkedList<Integer> adjs = new LinkedList<Integer>();
+		for(Integer i : adjMtx.get(location)) {
+			if(!visited[i])
+				adjs.add(i);
+		}
+		for(Integer adjCell : adjs) {
+			visited[adjCell] = true;
+			if(steps == 1) 
+				targets.add(adjCell);
+			else
+				calcTargets(adjCell, steps - 1);
+			visited[adjCell] = false;
+		}
+	}
+	
+	//calcTargets with coordinates
+	public void calcTargets(int row, int column, int steps) {
+		int location = calcIndex(row,column);
 		LinkedList<Integer> adjs = new LinkedList<Integer>();
 		for(Integer i : adjMtx.get(location)) {
 			if(!visited[i])
