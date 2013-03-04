@@ -345,37 +345,35 @@ public class ClueBoardTest {
 		//Location Row 14 Column 13
 		board.startTargets(board.calcIndex(14, 13), 3);
 		targets= board.getTargets();
-		System.out.println("14,13");
-		for(BoardCell a: targets)
-			System.out.println(board.calcIndex(a.getRow(),a.getColumn()));
 		Assert.assertEquals(9, targets.size());
-		Assert.assertTrue(targets.contains(336));
-		Assert.assertTrue(targets.contains(334));
-		Assert.assertTrue(targets.contains(332));
-		Assert.assertTrue(targets.contains(312));
-		Assert.assertTrue(targets.contains(314));
-		Assert.assertTrue(targets.contains(310));
-		Assert.assertTrue(targets.contains(290));
-		Assert.assertTrue(targets.contains(260));
-		Assert.assertTrue(targets.contains(382));
+		Assert.assertTrue(targets.contains(board.getCellAt(336)));
+		Assert.assertTrue(targets.contains(board.getCellAt(334)));
+		Assert.assertTrue(targets.contains(board.getCellAt(332)));
+		Assert.assertTrue(targets.contains(board.getCellAt(312)));
+		Assert.assertTrue(targets.contains(board.getCellAt(314)));
+		Assert.assertTrue(targets.contains(board.getCellAt(310)));
+		Assert.assertTrue(targets.contains(board.getCellAt(290)));
+		Assert.assertTrue(targets.contains(board.getCellAt(360)));
+		Assert.assertTrue(targets.contains(board.getCellAt(382)));
 		
+		//AFTER WE FIX THIS WALKWAYS WILL WORK THINKS THERE SHOULD BE 6 PLACES I CAN ONLY FIND 4
 		//Location Row 22 Column 14
 		board.startTargets(board.calcIndex(22, 14), 6);
 		targets= board.getTargets();
 		Assert.assertEquals(4, targets.size());
-		Assert.assertTrue(targets.contains(452));
-		Assert.assertTrue(targets.contains(406));
-		Assert.assertTrue(targets.contains(428));
-		Assert.assertTrue(targets.contains(382));
+		Assert.assertTrue(targets.contains(board.getCellAt(452)));
+		Assert.assertTrue(targets.contains(board.getCellAt(406)));
+		Assert.assertTrue(targets.contains(board.getCellAt(428)));
+		Assert.assertTrue(targets.contains(board.getCellAt(382)));
 		
 		//Location Row 10 Column 19
 		board.startTargets(board.calcIndex(10, 19), 2);
 		targets= board.getTargets();
 		Assert.assertEquals(4, targets.size());
-		Assert.assertTrue(targets.contains(251));
-		Assert.assertTrue(targets.contains(247));
-		Assert.assertTrue(targets.contains(273));
-		Assert.assertTrue(targets.contains(271));
+		Assert.assertTrue(targets.contains(board.getCellAt(251)));
+		Assert.assertTrue(targets.contains(board.getCellAt(247)));
+		Assert.assertTrue(targets.contains(board.getCellAt(273)));
+		Assert.assertTrue(targets.contains(board.getCellAt(271)));
 	}
 
 	
@@ -406,24 +404,26 @@ public class ClueBoardTest {
 	//These tests are ORANGE in planning spreadsheet
 	@Test
 	public void testTargetsEnter(){
+		//AFTER WE FIX THIS FIRST ONE ALL THE TEST WILL PASS DOES NOT RECGONIZE THE DOOR AS AN OPTION
 		//Location Row 1 Column 12
 		board.startTargets(board.calcIndex(1, 12), 3);
 		Set targets= board.getTargets();
-		Assert.assertEquals(5, targets.size());
-		Assert.assertTrue(targets.contains(34));
-		Assert.assertTrue(targets.contains(33));
-		Assert.assertTrue(targets.contains(58));
-		Assert.assertTrue(targets.contains(80));
-		Assert.assertTrue(targets.contains(104));
+		Assert.assertEquals(6, targets.size());
+		Assert.assertTrue(targets.contains(board.getCellAt(34)));
+		Assert.assertTrue(targets.contains(board.getCellAt(33)));
+		Assert.assertTrue(targets.contains(board.getCellAt(58)));
+		Assert.assertTrue(targets.contains(board.getCellAt(80)));
+		Assert.assertTrue(targets.contains(board.getCellAt(104)));
+		Assert.assertTrue(targets.contains(board.getCellAt(12)));
 		
 		//Location Row 11 Column 6
 		board.startTargets(board.calcIndex(11, 6), 1);
 		targets= board.getTargets();
 		Assert.assertEquals(4, targets.size());
-		Assert.assertTrue(targets.contains(260));
-		Assert.assertTrue(targets.contains(258));
-		Assert.assertTrue(targets.contains(236));
-		Assert.assertTrue(targets.contains(282));
+		Assert.assertTrue(targets.contains(board.getCellAt(260)));
+		Assert.assertTrue(targets.contains(board.getCellAt(258)));
+		Assert.assertTrue(targets.contains(board.getCellAt(236)));
+		Assert.assertTrue(targets.contains(board.getCellAt(282)));
 		
 	}
 
