@@ -154,14 +154,22 @@ public class Board {
 	//calcTargets with location
 	public void calcTargets(int location, int steps) {
 		LinkedList<BoardCell> adjs = new LinkedList<BoardCell>();
+		visited[location] = true;
 		for(Integer i : getAdjList(location)) {
 			if(!visited[i])
 				adjs.add(cells.get(i));
 		}
 		for(BoardCell adjCell : adjs) {
+			boolean exited = false;
+			for(int i = 0; i < numRooms; i++) {
+				if(getCellAt(i).isDoorway() && visited[i])
+					exited = true;
+			}
 			visited[calcIndex(adjCell.getRow(), adjCell.getColumn())] = true;
 			if(calcIndex(adjCell.getRow(), adjCell.getColumn()) < numRooms && calcIndex(adjCell.getRow(), adjCell.getColumn()) > 0) {
 				if(steps == 1) 
+					targets.add(adjCell);
+				else if (getCellAt(calcIndex(adjCell.getRow(), adjCell.getColumn())).isDoorway() && !exited)
 					targets.add(adjCell);
 				else
 					calcTargets(calcIndex(adjCell.getRow(), adjCell.getColumn()), steps - 1);
@@ -174,6 +182,7 @@ public class Board {
 	public void calcTargets(int row, int column, int steps) {
 		targets = new HashSet<BoardCell>();
 		int location = calcIndex(row,column);
+		visited[location] = true;
 		LinkedList<BoardCell> adjs = new LinkedList<BoardCell>();
 		for(Integer i : getAdjList(location)) {
 			if(!visited[i])

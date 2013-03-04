@@ -360,11 +360,13 @@ public class ClueBoardTest {
 		//Location Row 22 Column 14
 		board.startTargets(board.calcIndex(22, 14), 6);
 		targets= board.getTargets();
-		Assert.assertEquals(4, targets.size());
+		Assert.assertEquals(6, targets.size());
 		Assert.assertTrue(targets.contains(board.getCellAt(452)));
 		Assert.assertTrue(targets.contains(board.getCellAt(406)));
 		Assert.assertTrue(targets.contains(board.getCellAt(428)));
 		Assert.assertTrue(targets.contains(board.getCellAt(382)));
+		Assert.assertTrue(targets.contains(board.getCellAt(474)));
+		Assert.assertTrue(targets.contains(board.getCellAt(498)));
 		
 		//Location Row 10 Column 19
 		board.startTargets(board.calcIndex(10, 19), 2);
