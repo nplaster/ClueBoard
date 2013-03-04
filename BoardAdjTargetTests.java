@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import clueGame.Board;
 import clueGame.BoardCell;
+import clueGame.RoomCell;
 
 public class BoardAdjTargetTests {
 	private static Board board;
@@ -181,8 +182,6 @@ public class BoardAdjTargetTests {
 	public void testTargetsTwoSteps() {
 		board.calcTargets(21, 7, 2);
 		Set<BoardCell> targets= board.getTargets();
-		for(BoardCell e : targets)
-			System.out.println(board.calcIndex(e.getRow(),e.getColumn()));
 		Assert.assertEquals(2, targets.size());
 		Assert.assertTrue(targets.contains(board.getCellAt(board.calcIndex(19, 7))));
 		Assert.assertTrue(targets.contains(board.getCellAt(board.calcIndex(20, 6))));
@@ -223,13 +222,13 @@ public class BoardAdjTargetTests {
 		board.calcTargets(14, 0, 6);
 		Set<BoardCell> targets= board.getTargets();
 		Assert.assertEquals(7, targets.size());
-		Assert.assertTrue(targets.contains(board.getCellAt(board.calcIndex(14, 6))));
-		Assert.assertTrue(targets.contains(board.getCellAt(board.calcIndex(15, 5))));	
-		Assert.assertTrue(targets.contains(board.getCellAt(board.calcIndex(15, 3))));	
-		Assert.assertTrue(targets.contains(board.getCellAt(board.calcIndex(14, 4))));	
-		Assert.assertTrue(targets.contains(board.getCellAt(board.calcIndex(15, 1))));	
-		Assert.assertTrue(targets.contains(board.getCellAt(board.calcIndex(14, 2))));	
-		Assert.assertTrue(targets.contains(board.getCellAt(board.calcIndex(13, 4))));	
+		Assert.assertTrue(targets.contains(board.getCellAt(board.calcIndex(14, 6))));//328
+		Assert.assertTrue(targets.contains(board.getCellAt(board.calcIndex(15, 5))));//350	
+		Assert.assertTrue(targets.contains(board.getCellAt(board.calcIndex(15, 3))));//348	
+		Assert.assertTrue(targets.contains(board.getCellAt(board.calcIndex(14, 4))));//326	
+		Assert.assertTrue(targets.contains(board.getCellAt(board.calcIndex(15, 1))));//346	
+		Assert.assertTrue(targets.contains(board.getCellAt(board.calcIndex(14, 2))));//324	
+		Assert.assertTrue(targets.contains(board.getCellAt(board.calcIndex(13, 4))));//303	
 	}	
 	
 	// Test getting into a room

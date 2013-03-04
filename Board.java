@@ -173,29 +173,15 @@ public class Board {
 					targets.add(adjCell);
 				else
 					calcTargets(calcIndex(adjCell.getRow(), adjCell.getColumn()), steps - 1);
-				visited[calcIndex(adjCell.getRow(), adjCell.getColumn())] = false;
+			visited[calcIndex(adjCell.getRow(), adjCell.getColumn())] = false;
 			}
 		}
 	}
 	
 	//calcTargets with coordinates
 	public void calcTargets(int row, int column, int steps) {
-		targets = new HashSet<BoardCell>();
 		int location = calcIndex(row,column);
-		visited[location] = true;
-		LinkedList<BoardCell> adjs = new LinkedList<BoardCell>();
-		for(Integer i : getAdjList(location)) {
-			if(!visited[i])
-				adjs.add(cells.get(i));
-		}
-		for(BoardCell adjCell : adjs) {
-			visited[calcIndex(adjCell.getRow(), adjCell.getColumn())] = true;
-			if(steps == 1) 
-				targets.add(adjCell);
-			else
-				calcTargets(calcIndex(adjCell.getRow(), adjCell.getColumn()), steps - 1);
-			visited[calcIndex(adjCell.getRow(), adjCell.getColumn())] = false;
-		}
+		startTargets(location,steps);
 	}
 	
 	public void calcAdjacencies(){
